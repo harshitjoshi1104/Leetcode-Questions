@@ -1,0 +1,25 @@
+def stoneGameIII(self, stoneValue: List[int]) -> str:
+    hashTable={}
+    count=0
+    def Helper(index):
+        if index>=len(stoneValue):
+            return 0
+        if index in hashTable:
+            return hashTable[index]
+        val=stoneValue[index]+min(Helper(index+2),Helper(index+3),Helper(index+4))
+        total=stoneValue[index]
+        for i in range(index+1,min(index+3,len(stoneValue))):
+            total+=stoneValue[i]
+            val=max(val,total+min(Helper(i+2),Helper(i+3),Helper(i+4)))
+        hashTable[index]=val
+        return val
+    
+    ans=Helper(0)
+    totalSum=sum(stoneValue)
+    # print(count,len(stoneValue))
+    if ans==totalSum-ans:
+        return "Tie"
+    elif ans>totalSum-ans:
+        return "Alice"
+    else:
+        return "Bob"
