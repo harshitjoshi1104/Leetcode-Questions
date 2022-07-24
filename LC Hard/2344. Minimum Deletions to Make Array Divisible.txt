@@ -1,0 +1,16 @@
+def minOperations(self, nums: List[int], numsDivide: List[int]) -> int:
+    nums.sort()
+    numsDivide.sort()
+    val=bisect.bisect_right(nums,numsDivide[0])
+    nums=nums[:val]
+    if len(nums)==0:
+        return -1
+
+    val=math.gcd(*numsDivide)
+    count=0
+    while len(nums)>0:
+        if val%nums[0]==0:
+            return count
+        nums.pop(0)
+        count+=1
+    return -1
