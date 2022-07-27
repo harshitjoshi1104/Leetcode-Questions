@@ -1,0 +1,24 @@
+def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+    hashTable={}
+    for i in wordDict:
+        hashTable[i]=True  
+    lookup={}
+    ans=[]
+    def Helper(index,S,s1):
+        if index>=len(s):
+            ans.append(s1[:])
+            return
+
+        if (index,s1) in lookup:
+            return
+
+        for i in range(index,len(s)):
+            S+=s[i]
+            if S in hashTable:
+                Helper(i+1,"",s1+" "+S)
+        lookup[(index,s1)]=True
+        return
+
+    Helper(0,"","")
+    ans=[x.strip() for x in ans]
+    return ans
