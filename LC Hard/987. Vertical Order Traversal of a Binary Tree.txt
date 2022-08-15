@@ -1,0 +1,53 @@
+def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
+	minimum=0
+        maximum=0
+        height=0
+        def Width(root,curr):
+            nonlocal minimum,maximum
+            if root==None:
+                return
+            minimum=min(minimum,curr)
+            maximum=max(maximum,curr)
+            
+            Width(root.left,curr-1)
+            Width(root.right,curr+1)
+            return
+        def Height(root,curr):
+            nonlocal height
+            if root==None:
+                return 
+            height=max(height,curr)
+            Height(root.left,curr+1)
+            Height(root.right,curr+1)
+            return
+        
+        
+        temp=root
+        Width(root,0)
+        root=temp
+        Height(temp,0)
+
+        width=maximum-minimum+1
+        arr=[[[] for i in range(width)] for j in range(height+1)]
+        
+        curr=0-minimum
+        def Helper(root,curr,height):
+            if root==None:
+                return 
+            
+            arr[height][curr].append(root.val)
+            arr[height][curr].sort()
+            Helper(root.left,curr-1,height+1)
+            Helper(root.right,curr+1,height+1)
+            return
+        Helper(root,curr,0)
+        arr=list(zip(*arr))
+        newArr=[]
+        # print(arr)
+        for i in range(len(arr)):
+            newA=[]
+            for j in arr[i]:
+                newA+=j
+            newArr.append(newA)
+        return newArr
+        
