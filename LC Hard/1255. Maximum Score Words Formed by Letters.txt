@@ -1,0 +1,38 @@
+def maxScoreWords(self, words: List[str], letters: List[str], score: List[int]) -> int:
+    letter=collections.Counter(letters)
+
+    def Helper(index):
+        if index>=len(words):
+            return 0
+
+        skip=Helper(index+1)
+
+        word=collections.Counter(words[index])
+        isPossible=True
+        totalScore=0
+        for item in word:
+            if item not in letter:
+                isPossible=False
+                return skip
+            else:
+                if word[item]<=letter[item]:
+                    totalScore=totalScore + (word[item]*score[ord(item)-97])
+                else:
+                    isPossible=False
+                    return skip
+
+        for item in word:
+            letter[item]-=word[item]
+            if letter[item]==0:
+                del letter[item]
+        take=totalScore+Helper(index+1)
+
+        for item in word:
+            if item in letter:
+                letter[item]+=word[item]
+            else:
+                letter[item]=word[item]
+        return max(take,skip)
+    return Helper(0)
+
+

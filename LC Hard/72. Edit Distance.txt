@@ -1,0 +1,19 @@
+def minDistance(self, word1: str, word2: str) -> int:
+    hashTable={}
+    def Helper(i,j):
+        if i>=len(word1):
+            return len(word2)-j
+        if j>=len(word2):
+            return len(word1)-i
+
+        if (i,j) in hashTable:
+            return hashTable[(i,j)]
+
+        if word1[i]==word2[j]:
+            hashTable[(i,j)]=Helper(i+1,j+1)
+            return hashTable[(i,j)]
+        else:
+            hashTable[(i,j)]=1+min(Helper(i+1,j+1),Helper(i+1,j),Helper(i,j+1))
+            return hashTable[(i,j)]
+
+    return Helper(0,0)

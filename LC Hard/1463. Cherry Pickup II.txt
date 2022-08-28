@@ -1,0 +1,37 @@
+def cherryPickup(self, grid: List[List[int]]) -> int:
+    hashTable={}
+    M=len(grid)
+    N=len(grid[0])
+    def Helper(row,col1,col2):
+        if row>=len(grid):
+            return 0
+        if col1<0 or col2<0 or col1>=N or col2>=N:
+            return 0
+
+        if (row,col1,col2) in hashTable:
+            return hashTable[(row,col1,col2)]
+
+        if col1==col2:
+            score=grid[row][col1]
+        else:
+            score=grid[row][col1]+grid[row][col2]
+
+
+        val1=Helper(row+1,col1-1,col2-1)
+        val2=Helper(row+1,col1,col2-1)
+        val3=Helper(row+1,col1+1,col2-1)
+
+        val4=Helper(row+1,col1-1,col2)
+        val5=Helper(row+1,col1,col2)
+        val6=Helper(row+1,col1+1,col2)
+
+        val7=Helper(row+1,col1-1,col2+1)
+        val8=Helper(row+1,col1,col2+1)
+        val9=Helper(row+1,col1+1,col2+1)
+
+        hashTable[(row,col1,col2)]=score+max(val1,val2,val3,val4,val5,val6,val7,val8,val9)
+
+        return hashTable[(row,col1,col2)]
+
+    return Helper(0,0,N-1)
+
